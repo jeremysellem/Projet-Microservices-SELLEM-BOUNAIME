@@ -1,5 +1,6 @@
 package MIAGE.IF.BANK;
 import javax.persistence.*;
+
 @Entity
 public class Account {
     @Id
