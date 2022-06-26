@@ -12,14 +12,18 @@ public class Account {
     @Column(name="fees")
     private String frais;
 
+    @Column(name="solde")
+    private String solde;
+
     public Account() {
     }
 
-    public Account(String IBAN, String type, String interet, String frais){
+    public Account(String IBAN, String type, String interet, String frais, String solde){
         this.IBAN = IBAN;
         this.type = type;
         this.interet = interet;
         this.frais = frais;
+        this.solde = solde;
     }
 
     @Override
@@ -28,7 +32,8 @@ public class Account {
                 "IBAN=" + IBAN +
                 ", account_type='" + type + '\'' +
                 ", interests=" + interet + '\'' +
-                ", fees=" + frais +
+                ", fees=" + frais + '\'' +
+                ", solde=" + solde +
                 '}';
     }
 

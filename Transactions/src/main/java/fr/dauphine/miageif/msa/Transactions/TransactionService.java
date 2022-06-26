@@ -20,12 +20,8 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
-    public void deleteTransaction(final String id) {
-        transactionRepository.deleteById(id);
-    }
-
-    public Transaction saveTransaction(Transaction id) {
-        return transactionRepository.save(id);
+    public Transaction saveTransaction(Transaction transaction1) {
+        return transactionRepository.save(transaction1);
     }
 
 }

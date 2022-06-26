@@ -1,10 +1,7 @@
 package fr.dauphine.miageif.msa.Transactions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Optional;
 
 /* Endpoints REST */
@@ -13,6 +10,10 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+
+    public TransactionController(TransactionService service) {
+        this.transactionService = service;
+    }
 
     /**
      * Récupérer toutes les transactions
@@ -35,8 +36,10 @@ public class TransactionController {
      * Créer une transaction
      */
     @PostMapping("/transaction/create")
-    public Transaction createTransaction(@RequestBody Transaction transaction) {
-        return transactionService.saveTransaction(transaction);
+    public Transaction createTransaction(@RequestParam String id, @RequestParam String IBAN_from, @RequestParam String IBAN_to, @RequestParam String type, @RequestParam float montant, @RequestParam String date) {
+        Transaction transaction1 = new Transaction(id, IBAN_from, IBAN_to, type, montant, date);
+        transactionService.saveTransaction(transaction1);
+        return transaction1;
     }
 
 }

@@ -13,14 +13,14 @@ public class Transaction {
     @Column(name="transaction_type")
     private String type;
     @Column(name="montant")
-    private int montant;
+    private float montant;
     @Column(name="date")
     private String date;
 
     public Transaction() {
     }
 
-    public Transaction(String id, String IBAN_from, String IBAN_to, String type, int montant, String date){
+    public Transaction(String id, String IBAN_from, String IBAN_to, String type, float montant, String date){
         this.id = id;
         this.IBAN_from = IBAN_from;
         this.IBAN_to = IBAN_to;

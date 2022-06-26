@@ -1,10 +1,7 @@
 package fr.dauphine.miageif.msa.Accounts;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Optional;
 
 /* Endpoints REST */
@@ -13,6 +10,10 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    public AccountController(AccountService service) {
+        this.accountService = service;
+    }
 
     /**
      * Récupérer tous les comptes
@@ -26,7 +27,7 @@ public class AccountController {
      * Récupérer un compte par son iban
      */
     @GetMapping("/account/{iban}")
-    public Account getEmployee(@PathVariable("iban") final String iban) {
+    public Account getAccount(@PathVariable("iban") final String iban) {
         Optional<Account> account = accountService.getAccount(iban);
         return account.isPresent() ? account.get() : null;
     }
@@ -35,8 +36,18 @@ public class AccountController {
      * Créer un compte
      */
     @PostMapping("/account/create")
-    public Account createAccount(@RequestBody Account account) {
-        return accountService.saveAccount(account);
+    public Account createAccount(@RequestParam String iban, @RequestParam String type, @RequestParam String interet, @RequestParam String frais, @RequestParam String solde) {
+        Account compte = new Account(iban, type, interet, frais, solde);
+        accountService.saveAccount(compte);
+        return compte;
+    }
+
+    @PostMapping("/account/delete")
+    public void deleteAccount(@RequestParam String iban) {
+        Optional<Account> account = accountService.getAccount(iban);
+        if (account.isPresent())
+            accountService.deleteAccount(iban);
+        return;
     }
 
 }

@@ -24,8 +24,8 @@ public class AccountService {
         accountRepository.deleteById(iban);
     }
 
-    public Account saveAccount(Account iban) {
-        return accountRepository.save(iban);
+    public Account saveAccount(Account compte) {
+        return accountRepository.save(compte);
     }
 
 }
