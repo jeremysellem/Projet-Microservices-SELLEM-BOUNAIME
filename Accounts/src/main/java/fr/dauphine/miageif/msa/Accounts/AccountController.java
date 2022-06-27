@@ -45,6 +45,14 @@ public class AccountController {
     }
 
     /**
+     * Détermine si un iban existe dans la BDD
+     */
+    @GetMapping("account/exist/{iban}")
+    public Boolean ibanExist(@PathVariable("iban") final String iban) {
+        return accountService.getAccountByIban(iban).isPresent();
+    }
+
+    /**
      * Créer un compte
      */
     @PostMapping("/account/create")
@@ -57,6 +65,9 @@ public class AccountController {
         return compte;
     }
 
+    /**
+     * Supprimer un compte
+     */
     @Transactional
     @PostMapping("/account/delete")
     public void deleteAccount(@RequestParam Long id) {
@@ -83,4 +94,5 @@ public class AccountController {
 
         return "Old value: " + oldValue + " New value: " + account.get().getSolde();
     }
+
 }

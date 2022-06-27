@@ -1,30 +1,56 @@
 package fr.dauphine.miageif.msa.Transactions;
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Transaction {
 
     @Id
-    private String id;
-    @Column(name="IBAN_from")
-    private String IBAN_from;
-    @Column(name="IBAN_to")
-    private String IBAN_to;
-    @Column(name="transaction_type")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+    @Column(name="type")
     private String type;
+    @Column(name="ibanFrom")
+    private String ibanFrom;
+    @Column(name="ibanTo")
+    private String ibanTo;
     @Column(name="montant")
     private float montant;
     @Column(name="date")
-    private String date;
+    private Date date;
 
     public Transaction() {
     }
 
-    public Transaction(String id, String IBAN_from, String IBAN_to, String type, float montant, String date){
-        this.id = id;
-        this.IBAN_from = IBAN_from;
-        this.IBAN_to = IBAN_to;
+    public Long getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getibanFrom() {
+        return ibanFrom;
+    }
+
+    public String getibanTo() {
+        return ibanTo;
+    }
+
+    public float getMontant() {
+        return montant;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Transaction(String type, String ibanFrom, String ibanTo, float montant, Date date){
         this.type = type;
+        this.ibanFrom = ibanFrom;
+        this.ibanTo = ibanTo;
         this.montant = montant;
         this.date = date;
     }
@@ -32,11 +58,11 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction{" +
-                "id=" + id + '\'' +
-                ", IBAN_from=" + IBAN_from + '\'' +
-                ", IBAN_to=" + IBAN_to + '\'' +
+                "id=" + id +
                 ", transaction_type='" + type + '\'' +
-                ", montant=" + montant + '\'' +
+                ", ibanFrom=" + ibanFrom +
+                ", ibanTo=" + ibanTo +
+                ", montant=" + montant +
                 ", date=" + date +
                 '}';
     }
