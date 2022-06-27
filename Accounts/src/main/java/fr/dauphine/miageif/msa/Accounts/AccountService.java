@@ -12,16 +12,18 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public Optional<Account> getAccount(final String iban) {
-        return accountRepository.findById(iban);
+    public Optional<Account> getAccountByIban(final String iban) {
+        return accountRepository.findByIban(iban);
     }
 
-    public Iterable<Account> getAccounts() {
-        return accountRepository.findAll();
+    public Optional<Account> getAccountByID(final Long id) {
+        return accountRepository.findById(id);
     }
 
-    public void deleteAccount(final String iban) {
-        accountRepository.deleteById(iban);
+    public Iterable<Account> getAccounts() { return accountRepository.findAll(); }
+
+    public void deleteAccount(final Long id) {
+        accountRepository.deleteById(id);
     }
 
     public Account saveAccount(Account compte) {
