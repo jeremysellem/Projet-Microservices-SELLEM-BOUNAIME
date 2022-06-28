@@ -1,8 +1,4 @@
 package fr.dauphine.miageif.msa.Transactions;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import lombok.Data;
 import org.json.simple.JSONObject;
@@ -13,6 +9,14 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @Data
 @Service
 public class TransactionService {
@@ -21,6 +25,16 @@ public class TransactionService {
 
     public List<Transaction> getTransactionByIban(final String iban) {
         return Stream.concat(transactionRepository.findByIbanFrom(iban).stream(), transactionRepository.findByIbanTo(iban).stream()).collect(Collectors.toList());
+    }
+
+    public List<Transaction> getTransactionByType(String type) {
+        return transactionRepository.findByType(type);
+    }
+
+    public List<Transaction> getTransactionByDate(int year, int month, int day) {
+        LocalDate localDate = LocalDate.of(year, month, day);
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return transactionRepository.findByDate(date);
     }
 
     public Optional<Transaction> getTransactionByID(final Long id) {
@@ -38,13 +52,13 @@ public class TransactionService {
     }
 
     public boolean ibanExist(String iban) {
-        String uri = "http://localhost:8000/account/exist/{iban}";
+        String uri = "http://account-container:8000/account/exist/{iban}";
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(uri, boolean.class, iban);
     }
 
     public String updateAccount(String iban, float montant) {
-        String uri = "http://localhost:8000/account/update-balance";
+        String uri = "http://account-container:8000/account/update-balance";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

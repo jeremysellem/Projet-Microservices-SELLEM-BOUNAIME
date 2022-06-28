@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  Transaction:
+    image: spring-boot-transaction-app
+    container_name: transaction-container
+    build:
+      context: .
+      dockerfile: /Users/thegreatgolfer/Desktop/M2/S2/Microservices/Projet/Projet-Microservices-SELLEM-BOUNAIME/Transactions/Dockerfile
+    ports:
+        - 8001:8001
+    networks:
+      - bank-network
+    environment:
+      - API_URL=transaction-container:8001
+  
+networks:
+  bank-network:
+    external: true

@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +43,22 @@ public class TransactionController {
     }
 
     /**
+     * Récupérer une transaction par son type (ex : Virement...)
+     */
+    @GetMapping("/transaction/type/{type}")
+    public List<Transaction> getTransactionByType(@PathVariable("type") final String type) {
+        return transactionService.getTransactionByType(type);
+    }
+
+    /**
+     * Récupérer une transaction par son type (ex : Virement...)
+     */
+    @GetMapping("/transaction/date/{year}/{month}/{day}")
+    public List<Transaction> getTransactionByDate(@PathVariable("year") final int year, @PathVariable("month") final int month, @PathVariable("day") final int day) {
+        return transactionService.getTransactionByDate(year, month, day);
+    }
+
+    /**
      * Récupérer les transactions ayant cet IBAN en source ou en destinataire
      */
     @GetMapping("/transaction/iban/{iban}")
@@ -51,7 +70,7 @@ public class TransactionController {
      * Créer une transaction
      */
     @PostMapping("/transaction/create")
-    public Transaction createAccount(@RequestBody @NotNull Map<String, String> params) throws ParseException {
+    public Transaction createTransaction(@RequestBody @NotNull Map<String, String> params) throws ParseException {
         if(!(params.containsKey("type") && params.containsKey("ibanFrom") && params.containsKey("ibanTo") && params.containsKey("montant") && params.containsKey("date")))
             return null;
         if(!(transactionService.ibanExist(params.get("ibanFrom")) && transactionService.ibanExist(params.get("ibanTo"))))

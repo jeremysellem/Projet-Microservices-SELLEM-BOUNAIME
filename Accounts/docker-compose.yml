@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  Account:
+    image: spring-boot-account-app
+    container_name: account-container
+    build:
+      context: .
+      dockerfile: /Users/thegreatgolfer/Desktop/M2/S2/Microservices/Projet/Projet-Microservices-SELLEM-BOUNAIME/Accounts/Dockerfile
+    ports:
+        - 8000:8000
+    networks:
+      - bank-network
+    environment:
+      - API_URL=account-container:8000
+  
+networks:
+  bank-network:
+    external: true
